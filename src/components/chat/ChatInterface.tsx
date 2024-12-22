@@ -3,7 +3,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Send, Plus, Edit2, Trash2 } from "lucide-react";
+import { Send, Plus, Settings, Trash2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/components/ui/use-toast";
 
@@ -98,11 +98,11 @@ export const ChatInterface = () => {
           <h2 className="text-xl font-semibold text-white">ALGO</h2>
           <Button
             variant="ghost"
-            size="sm"
+            size="icon"
             onClick={() => setIsEditingStarters(!isEditingStarters)}
             className="text-gray-400 hover:text-white"
           >
-            {isEditingStarters ? "Done" : "Edit Starters"}
+            <Settings className="h-5 w-5" />
           </Button>
         </div>
 
