@@ -8,6 +8,7 @@ import Customers from "./pages/Customers";
 import Projects from "./pages/Projects";
 import Invoicing from "./pages/Invoicing";
 import Emails from "./pages/Emails";
+import Surveys from "./pages/Surveys";
 
 const queryClient = new QueryClient();
 
@@ -23,6 +24,7 @@ const App = () => (
           <Route path="/projects" element={<Projects />} />
           <Route path="/invoicing" element={<Invoicing />} />
           <Route path="/emails" element={<Emails />} />
+          <Route path="/surveys" element={<Surveys />} />
         </Routes>
       </BrowserRouter>
     </TooltipProvider>
