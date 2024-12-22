@@ -5,7 +5,7 @@ import { FloatingChatBubble } from "@/components/chat/FloatingChatBubble";
 const Invoicing = () => {
   return (
     <DashboardLayout>
-      <div className="p-8 space-y-8">
+      <div className="p-4 h-[calc(100vh-4rem)]">
         <InvoiceList />
         <FloatingChatBubble />
       </div>

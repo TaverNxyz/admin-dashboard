@@ -80,8 +80,8 @@ export const InvoiceList = () => {
   }
 
   return (
-    <Card className="bg-gradient-to-r from-[#1A1F2C] to-[#2A2F3C] border-gray-800 hover:border-blue-500/50 transition-all duration-300">
-      <div className="p-6">
+    <Card className="bg-gradient-to-r from-[#1A1F2C] to-[#2A2F3C] border-gray-800 hover:border-blue-500/50 transition-all duration-300 h-full">
+      <div className="p-6 h-full flex flex-col">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-xl font-semibold text-white">Invoices</h2>
           <div className="flex gap-2">
@@ -103,7 +103,7 @@ export const InvoiceList = () => {
           </div>
         </div>
 
-        <ScrollArea className="h-[600px]">
+        <ScrollArea className="flex-1">
           <Table>
             <TableHeader>
               <TableRow className="border-gray-800 hover:bg-black/20">
