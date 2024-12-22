@@ -3,10 +3,12 @@ import { WelcomeCard } from "@/components/dashboard/WelcomeCard";
 import { MetricsGrid } from "@/components/dashboard/MetricsGrid";
 import { SalesChart } from "@/components/dashboard/SalesChart";
 import { ChatInterface } from "@/components/chat/ChatInterface";
+import { CustomizationPanel } from "@/components/dashboard/CustomizationPanel";
 
 const Index = () => {
   return (
     <DashboardLayout>
+      <CustomizationPanel />
       <div className="p-8 space-y-8">
         <WelcomeCard />
         <MetricsGrid />
