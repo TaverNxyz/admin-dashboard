@@ -4,14 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import { ProjectDialog } from "./ProjectDialog";
 import { ProjectSearch } from "./filters/ProjectSearch";
-import { ProjectTableView } from "./views/ProjectTableView";
+import { ProjectCard } from "./cards/ProjectCard";
 import { Project } from "./types/Project";
-
-type LayoutOption = "grid" | "list" | "columns";
-
-type ProjectListProps = {
-  layout: LayoutOption;
-};
 
 const mockProjects: Project[] = [
   {
@@ -32,7 +26,7 @@ const mockProjects: Project[] = [
   },
 ];
 
-export const ProjectList = ({ layout }: ProjectListProps) => {
+export const ProjectList = () => {
   const [projects, setProjects] = useState<Project[]>(mockProjects);
   const [search, setSearch] = useState("");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -84,15 +78,35 @@ export const ProjectList = ({ layout }: ProjectListProps) => {
           </Button>
         </div>
 
-        <div className="overflow-auto max-h-[600px]">
-          <ProjectTableView
-            projects={filteredProjects}
-            onEdit={(project) => {
-              setSelectedProject(project);
-              setIsDialogOpen(true);
-            }}
-            onDelete={handleDeleteProject}
-          />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredProjects.map((project) => (
+            <div key={project.id} className="space-y-6">
+              <ProjectCard
+                project={project}
+                variant="default"
+                onClick={() => {
+                  setSelectedProject(project);
+                  setIsDialogOpen(true);
+                }}
+              />
+              <ProjectCard
+                project={project}
+                variant="compact"
+                onClick={() => {
+                  setSelectedProject(project);
+                  setIsDialogOpen(true);
+                }}
+              />
+              <ProjectCard
+                project={project}
+                variant="detailed"
+                onClick={() => {
+                  setSelectedProject(project);
+                  setIsDialogOpen(true);
+                }}
+              />
+            </div>
+          ))}
         </div>
       </div>
 
