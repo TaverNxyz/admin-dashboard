@@ -1,9 +1,10 @@
-import { Home, Users, FileText, Mail, ClipboardList, Package } from "lucide-react";
+import { Home, Users, FileText, Mail, ClipboardList, Package, Briefcase } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const menuItems = [
   { icon: Home, label: "Dashboard", href: "/" },
   { icon: Users, label: "Customers", href: "/customers" },
+  { icon: Briefcase, label: "Projects", href: "/projects" },
   { icon: FileText, label: "Invoicing", href: "/invoicing" },
   { icon: Mail, label: "Email", href: "/email" },
   { icon: ClipboardList, label: "Surveys", href: "/surveys" },
