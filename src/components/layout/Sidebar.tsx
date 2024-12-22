@@ -30,7 +30,7 @@ export const Sidebar = ({
           <img 
             src="/lovable-uploads/4a0b7229-c6d6-4c70-81c7-f3b656a33bdb.png"
             alt="AlgoTech Builds"
-            className="h-48 w-auto mx-auto animate-pulse-slow hover:animate-none transition-all duration-300 shadow-cyan-glow rounded-lg"
+            className="h-48 w-auto mx-auto transition-all duration-300 shadow-cyan-glow rounded-lg"
           />
         </div>
         <nav className="flex-1 p-4">
@@ -47,7 +47,7 @@ export const Sidebar = ({
                   )}
                 >
                   <item.icon className="h-5 w-5" />
-                  {isOpen && <span className="animate-pulse-slow">{item.label}</span>}
+                  {isOpen && <span>{item.label}</span>}
                   {!isOpen && (
                     <div className="absolute left-full ml-2 px-2 py-1 bg-gray-900 rounded-md opacity-0 group-hover:opacity-100 transition-opacity">
                       {item.label}
