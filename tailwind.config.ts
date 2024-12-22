@@ -28,14 +28,14 @@ export default {
           to: { height: "0" },
         },
         pulse: {
-          '0%, 100%': { opacity: '1' },
-          '50%': { opacity: '0.5' },
+          '0%, 100%': { opacity: '1', boxShadow: '0 0 20px rgba(14, 246, 255, 0.3)' },
+          '50%': { opacity: '0.5', boxShadow: '0 0 40px rgba(14, 246, 255, 0.6)' },
         },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
-        'pulse-slow': 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+        'pulse-slow': 'pulse 6s cubic-bezier(0.4, 0, 0.6, 1) infinite',
       },
       boxShadow: {
         'cyan-glow': '0 0 20px rgba(14, 246, 255, 0.3)',
