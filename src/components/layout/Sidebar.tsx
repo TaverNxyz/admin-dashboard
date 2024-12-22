@@ -30,7 +30,7 @@ export const Sidebar = ({
           <img 
             src="/lovable-uploads/4a0b7229-c6d6-4c70-81c7-f3b656a33bdb.png"
             alt="AlgoTech Builds"
-            className="h-16 w-auto mx-auto animate-pulse-slow hover:animate-none transition-all duration-300"
+            className="h-32 w-auto mx-auto animate-[pulse_4s_cubic-bezier(0.4,0,0.6,1)_infinite] hover:animate-none transition-all duration-300"
           />
         </div>
         <nav className="flex-1 p-4">
