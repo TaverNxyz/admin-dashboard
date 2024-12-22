@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
-  TableCell,
   TableHead,
   TableHeader,
   TableRow,
@@ -16,35 +15,9 @@ import { Plus, Search, Filter } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { EmailDialog } from "./EmailDialog";
 import { useToast } from "@/components/ui/use-toast";
-
-interface Email {
-  id: string;
-  subject: string;
-  recipient: string;
-  status: string;
-  sentAt: string;
-  template?: string;
-}
-
-const mockFetchEmails = async ({ pageParam = 0 }) => {
-  // Simulate API call
-  await new Promise((resolve) => setTimeout(resolve, 1000));
-  
-  const emails: Email[] = Array.from({ length: 10 }, (_, i) => ({
-    id: `${pageParam}-${i}`,
-    subject: `Email Subject ${pageParam * 10 + i + 1}`,
-    recipient: `recipient${i + 1}@example.com`,
-    status: ["Sent", "Draft", "Scheduled"][Math.floor(Math.random() * 3)],
-    sentAt: new Date(Date.now() - Math.random() * 10000000000).toISOString(),
-    template: Math.random() > 0.5 ? "Template A" : "Template B",
-  }));
-
-  return {
-    emails,
-    nextPage: pageParam + 1,
-    hasMore: pageParam < 5,
-  };
-};
+import { mockFetchEmails } from "./emailService";
+import { EmailTableRow } from "./EmailTableRow";
+import { Email } from "./types";
 
 export const EmailList = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -61,6 +34,7 @@ export const EmailList = () => {
   } = useInfiniteQuery({
     queryKey: ["emails", searchQuery],
     queryFn: mockFetchEmails,
+    initialPageParam: 0,
     getNextPageParam: (lastPage) =>
       lastPage.hasMore ? lastPage.nextPage : undefined,
   });
@@ -129,50 +103,12 @@ export const EmailList = () => {
             <TableBody>
               {data?.pages.map((page) =>
                 page.emails.map((email) => (
-                  <TableRow
+                  <EmailTableRow
                     key={email.id}
-                    className="border-gray-800 hover:bg-black/20"
-                  >
-                    <TableCell className="text-white">{email.subject}</TableCell>
-                    <TableCell className="text-white">{email.recipient}</TableCell>
-                    <TableCell>
-                      <span
-                        className={`px-2 py-1 rounded-full text-xs ${
-                          email.status === "Sent"
-                            ? "bg-green-500/20 text-green-500"
-                            : email.status === "Draft"
-                            ? "bg-gray-500/20 text-gray-500"
-                            : "bg-blue-500/20 text-blue-500"
-                        }`}
-                      >
-                        {email.status}
-                      </span>
-                    </TableCell>
-                    <TableCell className="text-white">
-                      {new Date(email.sentAt).toLocaleDateString()}
-                    </TableCell>
-                    <TableCell className="text-white">{email.template}</TableCell>
-                    <TableCell>
-                      <div className="flex gap-2">
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => handleEdit(email)}
-                          className="hover:bg-black/20 text-gray-400 hover:text-white"
-                        >
-                          Edit
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => handleDelete(email)}
-                          className="hover:bg-red-500/20 text-gray-400 hover:text-red-500"
-                        >
-                          Delete
-                        </Button>
-                      </div>
-                    </TableCell>
-                  </TableRow>
+                    email={email}
+                    onEdit={handleEdit}
+                    onDelete={handleDelete}
+                  />
                 ))
               )}
             </TableBody>
