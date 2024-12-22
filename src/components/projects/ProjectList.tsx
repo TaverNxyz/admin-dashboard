@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
+import { Plus, Trash2, Edit } from "lucide-react";
 import { ProjectDialog } from "./ProjectDialog";
 import { ProjectSearch } from "./filters/ProjectSearch";
 import { ProjectCard } from "./cards/ProjectCard";
 import { Project } from "./types/Project";
+import { useToast } from "@/hooks/use-toast";
 
 const mockProjects: Project[] = [
   {
@@ -27,6 +28,7 @@ const mockProjects: Project[] = [
 ];
 
 export const ProjectList = () => {
+  const { toast } = useToast();
   const [projects, setProjects] = useState<Project[]>(mockProjects);
   const [search, setSearch] = useState("");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -44,19 +46,28 @@ export const ProjectList = () => {
       id: Math.random().toString(36).substr(2, 9),
     };
     setProjects([...projects, project]);
-    setIsDialogOpen(false);
+    toast({
+      title: "Success",
+      description: "Project created successfully",
+    });
   };
 
   const handleUpdateProject = (updatedProject: Project) => {
     setProjects(projects.map((p) => 
       p.id === updatedProject.id ? updatedProject : p
     ));
-    setSelectedProject(null);
+    toast({
+      title: "Success",
+      description: "Project updated successfully",
+    });
   };
 
   const handleDeleteProject = (projectId: string) => {
     setProjects(projects.filter((p) => p.id !== projectId));
-    setSelectedProject(null);
+    toast({
+      title: "Success",
+      description: "Project deleted successfully",
+    });
   };
 
   return (
@@ -80,26 +91,29 @@ export const ProjectList = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredProjects.map((project) => (
-            <div key={project.id} className="space-y-6">
+            <div key={project.id} className="relative group">
+              <div className="absolute top-2 right-2 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity z-10">
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onClick={() => {
+                    setSelectedProject(project);
+                    setIsDialogOpen(true);
+                  }}
+                >
+                  <Edit className="h-4 w-4" />
+                </Button>
+                <Button
+                  variant="destructive"
+                  size="icon"
+                  onClick={() => handleDeleteProject(project.id)}
+                >
+                  <Trash2 className="h-4 w-4" />
+                </Button>
+              </div>
               <ProjectCard
                 project={project}
                 variant="default"
-                onClick={() => {
-                  setSelectedProject(project);
-                  setIsDialogOpen(true);
-                }}
-              />
-              <ProjectCard
-                project={project}
-                variant="compact"
-                onClick={() => {
-                  setSelectedProject(project);
-                  setIsDialogOpen(true);
-                }}
-              />
-              <ProjectCard
-                project={project}
-                variant="detailed"
                 onClick={() => {
                   setSelectedProject(project);
                   setIsDialogOpen(true);
