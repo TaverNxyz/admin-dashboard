@@ -11,6 +11,13 @@ import {
 } from "@/components/ui/select";
 import { Search, Plus } from "lucide-react";
 import { ProjectDialog } from "./ProjectDialog";
+import { ProjectCard } from "./cards/ProjectCard";
+
+type LayoutOption = "grid" | "list" | "columns";
+
+type ProjectListProps = {
+  layout: LayoutOption;
+};
 
 type Project = {
   id: string;
@@ -38,10 +45,9 @@ const mockProjects: Project[] = [
     priority: "medium",
     deadline: "2024-05-01",
   },
-  // Add more mock projects as needed
 ];
 
-export const ProjectList = () => {
+export const ProjectList = ({ layout }: ProjectListProps) => {
   const [projects, setProjects] = useState<Project[]>(mockProjects);
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("all");
@@ -76,6 +82,96 @@ export const ProjectList = () => {
   const handleDeleteProject = (projectId: string) => {
     setProjects(projects.filter((p) => p.id !== projectId));
     setSelectedProject(null);
+  };
+
+  const renderProjects = () => {
+    if (layout === "list") {
+      return (
+        <table className="w-full">
+          <thead>
+            <tr className="text-left border-b border-gray-800">
+              <th className="pb-3 text-gray-400">Project Name</th>
+              <th className="pb-3 text-gray-400">Client</th>
+              <th className="pb-3 text-gray-400">Status</th>
+              <th className="pb-3 text-gray-400">Priority</th>
+              <th className="pb-3 text-gray-400">Deadline</th>
+              <th className="pb-3 text-gray-400">Actions</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-gray-800">
+            {filteredProjects.map((project) => (
+              <tr key={project.id} className="hover:bg-white/5">
+                <td className="py-4 text-white">{project.name}</td>
+                <td className="py-4 text-gray-300">{project.client}</td>
+                <td className="py-4">
+                  <span className={`px-2 py-1 rounded-full text-xs ${
+                    {
+                      'planned': 'bg-blue-500/10 text-blue-400',
+                      'in-progress': 'bg-yellow-500/10 text-yellow-400',
+                      'completed': 'bg-green-500/10 text-green-400',
+                      'delayed': 'bg-red-500/10 text-red-400',
+                    }[project.status]
+                  }`}>
+                    {project.status.charAt(0).toUpperCase() + project.status.slice(1)}
+                  </span>
+                </td>
+                <td className="py-4">
+                  <span className={`px-2 py-1 rounded-full text-xs ${
+                    {
+                      'low': 'bg-gray-500/10 text-gray-400',
+                      'medium': 'bg-yellow-500/10 text-yellow-400',
+                      'high': 'bg-red-500/10 text-red-400',
+                    }[project.priority]
+                  }`}>
+                    {project.priority.charAt(0).toUpperCase() + project.priority.slice(1)}
+                  </span>
+                </td>
+                <td className="py-4 text-gray-300">{project.deadline}</td>
+                <td className="py-4">
+                  <div className="flex gap-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => {
+                        setSelectedProject(project);
+                        setIsDialogOpen(true);
+                      }}
+                    >
+                      Edit
+                    </Button>
+                    <Button
+                      variant="destructive"
+                      size="sm"
+                      onClick={() => handleDeleteProject(project.id)}
+                    >
+                      Delete
+                    </Button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      );
+    }
+
+    return (
+      <div className={`grid gap-6 ${
+        layout === "grid" ? "grid-cols-1 md:grid-cols-2 lg:grid-cols-3" : "grid-cols-1"
+      }`}>
+        {filteredProjects.map((project) => (
+          <ProjectCard
+            key={project.id}
+            project={project}
+            variant={layout === "grid" ? "detailed" : "default"}
+            onClick={() => {
+              setSelectedProject(project);
+              setIsDialogOpen(true);
+            }}
+          />
+        ))}
+      </div>
+    );
   };
 
   return (
@@ -131,71 +227,7 @@ export const ProjectList = () => {
         </div>
 
         <div className="overflow-auto max-h-[600px]">
-          <table className="w-full">
-            <thead>
-              <tr className="text-left border-b border-gray-800">
-                <th className="pb-3 text-gray-400">Project Name</th>
-                <th className="pb-3 text-gray-400">Client</th>
-                <th className="pb-3 text-gray-400">Status</th>
-                <th className="pb-3 text-gray-400">Priority</th>
-                <th className="pb-3 text-gray-400">Deadline</th>
-                <th className="pb-3 text-gray-400">Actions</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-800">
-              {filteredProjects.map((project) => (
-                <tr key={project.id} className="hover:bg-white/5">
-                  <td className="py-4 text-white">{project.name}</td>
-                  <td className="py-4 text-gray-300">{project.client}</td>
-                  <td className="py-4">
-                    <span className={`px-2 py-1 rounded-full text-xs ${
-                      {
-                        'planned': 'bg-blue-500/10 text-blue-400',
-                        'in-progress': 'bg-yellow-500/10 text-yellow-400',
-                        'completed': 'bg-green-500/10 text-green-400',
-                        'delayed': 'bg-red-500/10 text-red-400',
-                      }[project.status]
-                    }`}>
-                      {project.status.charAt(0).toUpperCase() + project.status.slice(1)}
-                    </span>
-                  </td>
-                  <td className="py-4">
-                    <span className={`px-2 py-1 rounded-full text-xs ${
-                      {
-                        'low': 'bg-gray-500/10 text-gray-400',
-                        'medium': 'bg-yellow-500/10 text-yellow-400',
-                        'high': 'bg-red-500/10 text-red-400',
-                      }[project.priority]
-                    }`}>
-                      {project.priority.charAt(0).toUpperCase() + project.priority.slice(1)}
-                    </span>
-                  </td>
-                  <td className="py-4 text-gray-300">{project.deadline}</td>
-                  <td className="py-4">
-                    <div className="flex gap-2">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => {
-                          setSelectedProject(project);
-                          setIsDialogOpen(true);
-                        }}
-                      >
-                        Edit
-                      </Button>
-                      <Button
-                        variant="destructive"
-                        size="sm"
-                        onClick={() => handleDeleteProject(project.id)}
-                      >
-                        Delete
-                      </Button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          {renderProjects()}
         </div>
       </div>
 
