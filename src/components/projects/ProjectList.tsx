@@ -90,7 +90,7 @@ export const ProjectList = () => {
   }
 
   return (
-    <Card className="bg-black/50 backdrop-blur-xl border-gray-800 p-6">
+    <Card className="bg-gradient-to-r from-[#1A1F2C] to-[#2A2F3C] border-gray-800 p-6">
       <div className="space-y-6">
         <div className="flex flex-col md:flex-row gap-4 items-start md:items-center justify-between">
           <div className="flex-1 w-full md:w-auto">
@@ -101,7 +101,7 @@ export const ProjectList = () => {
               setSelectedProject(null);
               setIsDialogOpen(true);
             }}
-            className="w-full md:w-auto"
+            className="w-full md:w-auto bg-purple-600 hover:bg-purple-700 text-white"
           >
             <Plus className="h-4 w-4 mr-2" />
             New Project
@@ -115,6 +115,7 @@ export const ProjectList = () => {
                 <Button
                   variant="outline"
                   size="icon"
+                  className="bg-black/20 border-gray-700 hover:bg-black/40"
                   onClick={() => {
                     setSelectedProject(project);
                     setIsDialogOpen(true);
@@ -125,6 +126,7 @@ export const ProjectList = () => {
                 <Button
                   variant="destructive"
                   size="icon"
+                  className="hover:bg-red-700"
                   onClick={() => handleDeleteProject(project.id)}
                 >
                   <Trash2 className="h-4 w-4" />

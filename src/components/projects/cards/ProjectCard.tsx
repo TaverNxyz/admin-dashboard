@@ -47,7 +47,7 @@ export const ProjectCard = ({ project, variant = "default", onClick }: ProjectCa
   if (variant === "compact") {
     return (
       <Card
-        className="p-4 cursor-pointer hover:border-blue-500/50 transition-all bg-black/50 backdrop-blur-xl border-gray-800"
+        className="p-4 cursor-pointer hover:border-blue-500/50 transition-all bg-gradient-to-br from-purple-900/50 to-blue-900/50 backdrop-blur-xl border-gray-800"
         onClick={onClick}
       >
         <h4 className="font-medium text-white mb-2">{project.name}</h4>
@@ -64,7 +64,7 @@ export const ProjectCard = ({ project, variant = "default", onClick }: ProjectCa
   if (variant === "detailed") {
     return (
       <Card
-        className="p-6 cursor-pointer hover:border-blue-500/50 transition-all bg-black/50 backdrop-blur-xl border-gray-800"
+        className="p-6 cursor-pointer hover:border-blue-500/50 transition-all bg-gradient-to-br from-purple-900/50 to-blue-900/50 backdrop-blur-xl border-gray-800"
         onClick={onClick}
       >
         <div className="flex justify-between items-start mb-4">
@@ -93,10 +93,9 @@ export const ProjectCard = ({ project, variant = "default", onClick }: ProjectCa
     );
   }
 
-  // Default variant
   return (
     <Card
-      className="p-4 cursor-pointer hover:border-blue-500/50 transition-all bg-black/50 backdrop-blur-xl border-gray-800"
+      className="p-4 cursor-pointer hover:border-blue-500/50 transition-all bg-gradient-to-br from-purple-900/50 to-blue-900/50 backdrop-blur-xl border-gray-800"
       onClick={onClick}
     >
       <h4 className="font-medium text-white mb-2">{project.name}</h4>

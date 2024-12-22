@@ -105,7 +105,7 @@ export const CustomerList = () => {
   }
 
   return (
-    <Card className="bg-black/50 backdrop-blur-xl border-gray-800">
+    <Card className="bg-gradient-to-r from-[#1A1F2C] to-[#2A2F3C] border-gray-800 hover:border-blue-500/50 transition-all duration-300">
       <div className="p-6">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-xl font-semibold text-white">Customer List</h2>
@@ -117,7 +117,7 @@ export const CustomerList = () => {
             <>
               <Table>
                 <TableHeader>
-                  <TableRow className="border-gray-800">
+                  <TableRow className="border-gray-800 hover:bg-black/20">
                     <TableHead className="text-gray-400">Customer</TableHead>
                     <TableHead className="text-gray-400">Status</TableHead>
                     <TableHead className="text-gray-400">Last Purchase</TableHead>
@@ -128,7 +128,7 @@ export const CustomerList = () => {
                 </TableHeader>
                 <TableBody>
                   {customers.map((customer, index) => (
-                    <TableRow key={index} className="border-gray-800">
+                    <TableRow key={index} className="border-gray-800 hover:bg-black/20">
                       <TableCell>
                         <div className="flex items-center gap-3">
                           <Avatar className="bg-purple-900 text-white">
