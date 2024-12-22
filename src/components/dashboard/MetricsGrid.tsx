@@ -34,11 +34,11 @@ export const MetricsGrid = () => {
       {metrics.map((metric) => (
         <Card
           key={metric.label}
-          className="bg-black/50 backdrop-blur-xl border-gray-800 hover:border-blue-500/50 transition-colors"
+          className="bg-black/50 backdrop-blur-xl border-gray-800 hover:border-blue-500/50 transition-all duration-300 shadow-cyan-glow hover:shadow-lg hover:shadow-cyan-glow"
         >
           <div className="p-6">
             <div className="flex items-center justify-between mb-4">
-              <metric.icon className="h-6 w-6 text-blue-400" />
+              <metric.icon className="h-6 w-6 text-[#0EF6FF]" />
               <span className={`text-sm ${metric.change.startsWith('+') ? 'text-green-400' : 'text-red-400'}`}>
                 {metric.change}
               </span>

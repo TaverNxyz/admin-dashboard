@@ -13,7 +13,7 @@ const data = [
 
 export const SalesChart = () => {
   return (
-    <Card className="bg-black/50 backdrop-blur-xl border-gray-800">
+    <Card className="bg-black/50 backdrop-blur-xl border-gray-800 shadow-cyan-glow hover:shadow-lg hover:shadow-cyan-glow transition-all duration-300">
       <div className="p-6">
         <h2 className="text-lg font-semibold text-white mb-4">Sales Overview</h2>
         <div className="h-[300px] w-full">
