@@ -62,7 +62,7 @@ export const ProjectKanban = () => {
   };
 
   return (
-    <Card className="bg-gradient-to-r from-[#1A1F2C] to-[#2A2F3C] border-gray-800 p-6 hover:border-blue-500/50 transition-all duration-300">
+    <Card className="bg-gradient-to-br from-[#1A1F2C] to-[#2A2F3C] border-gray-800 p-6 hover:border-blue-500/50 transition-all duration-300">
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-xl font-semibold text-white">Project Board</h2>
         <Button

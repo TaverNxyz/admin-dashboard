@@ -90,7 +90,7 @@ export const ProjectList = () => {
   }
 
   return (
-    <Card className="bg-gradient-to-r from-[#1A1F2C] to-[#2A2F3C] border-gray-800 p-6 hover:border-blue-500/50 transition-all duration-300">
+    <Card className="bg-gradient-to-br from-[#1A1F2C] to-[#2A2F3C] border-gray-800 p-6 hover:border-blue-500/50 transition-all duration-300">
       <div className="space-y-6">
         <div className="flex flex-col md:flex-row gap-4 items-start md:items-center justify-between">
           <div className="flex-1 w-full md:w-auto">
