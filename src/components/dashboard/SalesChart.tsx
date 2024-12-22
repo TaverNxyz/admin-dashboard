@@ -13,29 +13,41 @@ const data = [
 
 export const SalesChart = () => {
   return (
-    <Card className="bg-black/50 backdrop-blur-xl border-gray-800 shadow-cyan-glow hover:shadow-lg hover:shadow-cyan-glow transition-all duration-300">
-      <div className="p-6">
-        <h2 className="text-lg font-semibold text-white mb-4">Sales Overview</h2>
+    <Card className="bg-black/50 backdrop-blur-xl border-gray-800 hover:border-blue-500/50 transition-all duration-300">
+      <div className="p-8">
+        <h2 className="text-xl font-semibold text-white mb-6">Sales Overview</h2>
         <div className="h-[300px] w-full">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={data}>
               <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
-              <XAxis dataKey="name" stroke="#9CA3AF" />
-              <YAxis stroke="#9CA3AF" />
+              <XAxis 
+                dataKey="name" 
+                stroke="#9CA3AF"
+                tick={{ fill: '#9CA3AF' }}
+                axisLine={{ stroke: '#374151' }}
+              />
+              <YAxis 
+                stroke="#9CA3AF"
+                tick={{ fill: '#9CA3AF' }}
+                axisLine={{ stroke: '#374151' }}
+              />
               <Tooltip
                 contentStyle={{
                   backgroundColor: '#1F2937',
-                  border: 'none',
+                  border: '1px solid #374151',
                   borderRadius: '0.5rem',
                   color: '#fff',
+                  padding: '12px',
                 }}
+                labelStyle={{ color: '#9CA3AF' }}
               />
               <Line
                 type="monotone"
                 dataKey="value"
                 stroke="#0EF6FF"
                 strokeWidth={2}
-                dot={{ fill: '#0EF6FF' }}
+                dot={{ fill: '#0EF6FF', strokeWidth: 2 }}
+                activeDot={{ r: 6, fill: '#0EF6FF', stroke: '#fff' }}
               />
             </LineChart>
           </ResponsiveContainer>

@@ -6,7 +6,7 @@ import { SalesChart } from "@/components/dashboard/SalesChart";
 const Index = () => {
   return (
     <DashboardLayout>
-      <div className="p-6 space-y-6">
+      <div className="p-8 space-y-8">
         <WelcomeCard />
         <MetricsGrid />
         <SalesChart />
