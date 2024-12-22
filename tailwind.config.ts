@@ -27,15 +27,16 @@ export default {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
-        pulse: {
-          '0%, 100%': { opacity: '1', boxShadow: '0 0 20px rgba(14, 246, 255, 0.3)' },
-          '50%': { opacity: '0.5', boxShadow: '0 0 40px rgba(14, 246, 255, 0.6)' },
-        },
+        glow: {
+          '0%': { boxShadow: '0 0 15px rgba(14, 246, 255, 0.2)' },
+          '50%': { boxShadow: '0 0 30px rgba(14, 246, 255, 0.4)' },
+          '100%': { boxShadow: '0 0 15px rgba(14, 246, 255, 0.2)' },
+        }
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
-        'pulse-extra-slow': 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+        'logo-glow': 'glow 3s ease-in-out infinite',
       },
       boxShadow: {
         'cyan-glow': '0 0 20px rgba(14, 246, 255, 0.3)',
