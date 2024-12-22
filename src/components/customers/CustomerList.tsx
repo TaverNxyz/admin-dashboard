@@ -11,6 +11,8 @@ import { Pencil, Trash2, MessageSquare } from "lucide-react";
 import { CustomerDialog } from "./CustomerDialog";
 import { useToast } from "@/components/ui/use-toast";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { useInfiniteScroll } from "@/hooks/useInfiniteScroll";
 import {
   Dialog,
   DialogContent,
@@ -31,53 +33,47 @@ export interface Customer {
   notes?: string;
 }
 
-const customers: Customer[] = [
-  {
-    name: "Alex Thompson",
-    email: "alex.t@company.com",
-    avatar: "AT",
-    status: "Active",
-    lastPurchase: "2024-02-15",
-    totalSpent: "$12,450",
-    satisfaction: "Very Satisfied",
-    notes: "Key decision maker for enterprise accounts. Prefers email communication."
-  },
-  {
-    name: "Sarah Wilson",
-    email: "sarah.w@startup.io",
-    avatar: "SW",
-    status: "Active",
-    lastPurchase: "2024-02-14",
-    totalSpent: "$8,750",
-    satisfaction: "Satisfied",
-    notes: "Interested in upgrading to premium plan. Follow up in March."
-  },
-  {
-    name: "Michael Chen",
-    email: "m.chen@tech.co",
-    avatar: "MC",
-    status: "Inactive",
-    lastPurchase: "2024-01-13",
-    totalSpent: "$15,200",
-    satisfaction: "Neutral",
-    notes: "Currently evaluating competitor products. Schedule check-in call."
-  },
-  {
-    name: "Emma Davis",
-    email: "emma.d@design.co",
-    avatar: "ED",
-    status: "Active",
-    lastPurchase: "2024-02-16",
-    totalSpent: "$9,300",
-    satisfaction: "Very Satisfied",
-    notes: "Recently expanded team size. Potential for account growth."
-  },
-];
+const PAGE_SIZE = 10;
+
+const fetchCustomers = async ({ pageParam = 0 }) => {
+  // Simulating API call with mock data
+  const mockCustomers: Customer[] = Array.from({ length: PAGE_SIZE }, (_, i) => ({
+    name: `Customer ${pageParam * PAGE_SIZE + i + 1}`,
+    email: `customer${pageParam * PAGE_SIZE + i + 1}@example.com`,
+    avatar: `C${i + 1}`,
+    status: Math.random() > 0.5 ? "Active" : "Inactive",
+    lastPurchase: new Date(Date.now() - Math.random() * 10000000000).toISOString().split('T')[0],
+    totalSpent: `$${Math.floor(Math.random() * 20000)}`,
+    satisfaction: ["Very Satisfied", "Satisfied", "Neutral", "Dissatisfied", "Very Dissatisfied"][Math.floor(Math.random() * 5)],
+    notes: Math.random() > 0.5 ? "Some customer notes here." : undefined,
+  }));
+
+  return {
+    customers: mockCustomers,
+    nextPage: pageParam + 1,
+    hasMore: pageParam < 4, // Limit to 5 pages for demo
+  };
+};
 
 export const CustomerList = () => {
   const [viewMode, setViewMode] = useState<"list" | "kanban">("list");
   const [editCustomer, setEditCustomer] = useState<Customer | null>(null);
   const { toast } = useToast();
+
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isLoading,
+  } = useInfiniteQuery({
+    queryKey: ['customers'],
+    queryFn: fetchCustomers,
+    getNextPageParam: (lastPage) => lastPage.hasMore ? lastPage.nextPage : undefined,
+  });
+
+  const loadMoreRef = useInfiniteScroll(fetchNextPage, hasNextPage);
+
+  const customers = data?.pages.flatMap(page => page.customers) || [];
 
   const handleDelete = (customer: Customer) => {
     toast({
@@ -103,6 +99,10 @@ export const CustomerList = () => {
     }
   };
 
+  if (isLoading) {
+    return <div className="flex justify-center p-8">Loading customers...</div>;
+  }
+
   return (
     <Card className="bg-black/50 backdrop-blur-xl border-gray-800">
       <div className="p-6">
@@ -113,92 +113,95 @@ export const CustomerList = () => {
 
         <ScrollArea className="h-[600px]">
           {viewMode === "list" ? (
-            <Table>
-              <TableHeader>
-                <TableRow className="border-gray-800">
-                  <TableHead className="text-gray-400">Customer</TableHead>
-                  <TableHead className="text-gray-400">Status</TableHead>
-                  <TableHead className="text-gray-400">Last Purchase</TableHead>
-                  <TableHead className="text-gray-400">Total Spent</TableHead>
-                  <TableHead className="text-gray-400">Satisfaction</TableHead>
-                  <TableHead className="text-gray-400">Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {customers.map((customer, index) => (
-                  <TableRow key={index} className="border-gray-800">
-                    <TableCell>
-                      <div className="flex items-center gap-3">
-                        <Avatar className="bg-purple-900 text-white">
-                          {customer.avatar}
-                        </Avatar>
-                        <div>
-                          <p className="text-white font-medium">{customer.name}</p>
-                          <p className="text-gray-400 text-sm">{customer.email}</p>
-                        </div>
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <Badge
-                        variant="outline"
-                        className={cn(
-                          "border-2",
-                          customer.status === "Active" ? "border-green-500 text-green-400" : "border-red-500 text-red-400"
-                        )}
-                      >
-                        {customer.status}
-                      </Badge>
-                    </TableCell>
-                    <TableCell className="text-gray-300">{customer.lastPurchase}</TableCell>
-                    <TableCell className="text-gray-300 font-medium">{customer.totalSpent}</TableCell>
-                    <TableCell>
-                      <Badge
-                        variant="outline"
-                        className={cn(
-                          "border-2",
-                          getSatisfactionColor(customer.satisfaction)
-                        )}
-                      >
-                        {customer.satisfaction}
-                      </Badge>
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex items-center gap-2">
-                        <Dialog>
-                          <DialogTrigger asChild>
-                            <Button variant="ghost" size="icon">
-                              <MessageSquare className="h-4 w-4 text-gray-400" />
-                            </Button>
-                          </DialogTrigger>
-                          <DialogContent>
-                            <DialogHeader>
-                              <DialogTitle>Customer Notes</DialogTitle>
-                              <DialogDescription>
-                                {customer.notes || "No notes available for this customer."}
-                              </DialogDescription>
-                            </DialogHeader>
-                          </DialogContent>
-                        </Dialog>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          onClick={() => setEditCustomer(customer)}
-                        >
-                          <Pencil className="h-4 w-4 text-gray-400" />
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          onClick={() => handleDelete(customer)}
-                        >
-                          <Trash2 className="h-4 w-4 text-gray-400" />
-                        </Button>
-                      </div>
-                    </TableCell>
+            <>
+              <Table>
+                <TableHeader>
+                  <TableRow className="border-gray-800">
+                    <TableHead className="text-gray-400">Customer</TableHead>
+                    <TableHead className="text-gray-400">Status</TableHead>
+                    <TableHead className="text-gray-400">Last Purchase</TableHead>
+                    <TableHead className="text-gray-400">Total Spent</TableHead>
+                    <TableHead className="text-gray-400">Satisfaction</TableHead>
+                    <TableHead className="text-gray-400">Actions</TableHead>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+                </TableHeader>
+                <TableBody>
+                  {customers.map((customer, index) => (
+                    <TableRow key={index} className="border-gray-800">
+                      <TableCell>
+                        <div className="flex items-center gap-3">
+                          <Avatar className="bg-purple-900 text-white">
+                            {customer.avatar}
+                          </Avatar>
+                          <div>
+                            <p className="text-white font-medium">{customer.name}</p>
+                            <p className="text-gray-400 text-sm">{customer.email}</p>
+                          </div>
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <Badge
+                          variant="outline"
+                          className={cn(
+                            "border-2",
+                            customer.status === "Active" ? "border-green-500 text-green-400" : "border-red-500 text-red-400"
+                          )}
+                        >
+                          {customer.status}
+                        </Badge>
+                      </TableCell>
+                      <TableCell className="text-gray-300">{customer.lastPurchase}</TableCell>
+                      <TableCell className="text-gray-300 font-medium">{customer.totalSpent}</TableCell>
+                      <TableCell>
+                        <Badge
+                          variant="outline"
+                          className={cn(
+                            "border-2",
+                            getSatisfactionColor(customer.satisfaction)
+                          )}
+                        >
+                          {customer.satisfaction}
+                        </Badge>
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex items-center gap-2">
+                          <Dialog>
+                            <DialogTrigger asChild>
+                              <Button variant="ghost" size="icon">
+                                <MessageSquare className="h-4 w-4 text-gray-400" />
+                              </Button>
+                            </DialogTrigger>
+                            <DialogContent>
+                              <DialogHeader>
+                                <DialogTitle>Customer Notes</DialogTitle>
+                                <DialogDescription>
+                                  {customer.notes || "No notes available for this customer."}
+                                </DialogDescription>
+                              </DialogHeader>
+                            </DialogContent>
+                          </Dialog>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={() => setEditCustomer(customer)}
+                          >
+                            <Pencil className="h-4 w-4 text-gray-400" />
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={() => handleDelete(customer)}
+                          >
+                            <Trash2 className="h-4 w-4 text-gray-400" />
+                          </Button>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+              <div ref={loadMoreRef} className="h-10" />
+            </>
           ) : (
             <CustomerKanban customers={customers} />
           )}
