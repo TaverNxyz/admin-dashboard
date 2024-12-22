@@ -27,7 +27,7 @@ interface CustomerDialogProps {
     name: string;
     email: string;
     status: string;
-    segment: string;
+    satisfaction: string;
     notes?: string;
     lastPurchase?: string;
     totalSpent?: string;
@@ -46,7 +46,7 @@ export const CustomerDialog = ({
       name: "",
       email: "",
       status: "Active",
-      segment: "Regular",
+      satisfaction: "Satisfied",
       notes: "",
       lastPurchase: new Date().toISOString().split('T')[0],
       totalSpent: "0",
@@ -113,19 +113,22 @@ export const CustomerDialog = ({
               </Select>
             </div>
             <div className="grid gap-2">
-              <Label htmlFor="segment">Segment</Label>
+              <Label htmlFor="satisfaction">Satisfaction Level</Label>
               <Select
-                value={formData.segment}
+                value={formData.satisfaction}
                 onValueChange={(value) =>
-                  setFormData({ ...formData, segment: value })
+                  setFormData({ ...formData, satisfaction: value })
                 }
               >
                 <SelectTrigger>
-                  <SelectValue placeholder="Select segment" />
+                  <SelectValue placeholder="Select satisfaction level" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="Regular">Regular</SelectItem>
-                  <SelectItem value="Premium">Premium</SelectItem>
+                  <SelectItem value="Very Satisfied">Very Satisfied</SelectItem>
+                  <SelectItem value="Satisfied">Satisfied</SelectItem>
+                  <SelectItem value="Neutral">Neutral</SelectItem>
+                  <SelectItem value="Dissatisfied">Dissatisfied</SelectItem>
+                  <SelectItem value="Very Dissatisfied">Very Dissatisfied</SelectItem>
                 </SelectContent>
               </Select>
             </div>

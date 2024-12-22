@@ -27,7 +27,7 @@ const customers = [
     status: "Active",
     lastPurchase: "2024-02-15",
     totalSpent: "$12,450",
-    segment: "Premium",
+    satisfaction: "Very Satisfied",
     notes: "Key decision maker for enterprise accounts. Prefers email communication."
   },
   {
@@ -37,7 +37,7 @@ const customers = [
     status: "Active",
     lastPurchase: "2024-02-14",
     totalSpent: "$8,750",
-    segment: "Regular",
+    satisfaction: "Satisfied",
     notes: "Interested in upgrading to premium plan. Follow up in March."
   },
   {
@@ -47,7 +47,7 @@ const customers = [
     status: "Inactive",
     lastPurchase: "2024-01-13",
     totalSpent: "$15,200",
-    segment: "Premium",
+    satisfaction: "Neutral",
     notes: "Currently evaluating competitor products. Schedule check-in call."
   },
   {
@@ -57,7 +57,7 @@ const customers = [
     status: "Active",
     lastPurchase: "2024-02-16",
     totalSpent: "$9,300",
-    segment: "Regular",
+    satisfaction: "Very Satisfied",
     notes: "Recently expanded team size. Potential for account growth."
   },
 ];
@@ -72,6 +72,23 @@ export const CustomerList = () => {
       title: "Customer deleted",
       description: `${customer.name} has been removed from your customer list.`,
     });
+  };
+
+  const getSatisfactionColor = (satisfaction: string) => {
+    switch (satisfaction) {
+      case "Very Satisfied":
+        return "border-green-500 text-green-400";
+      case "Satisfied":
+        return "border-blue-500 text-blue-400";
+      case "Neutral":
+        return "border-yellow-500 text-yellow-400";
+      case "Dissatisfied":
+        return "border-orange-500 text-orange-400";
+      case "Very Dissatisfied":
+        return "border-red-500 text-red-400";
+      default:
+        return "border-gray-500 text-gray-400";
+    }
   };
 
   return (
@@ -90,7 +107,7 @@ export const CustomerList = () => {
                 <TableHead className="text-gray-400">Status</TableHead>
                 <TableHead className="text-gray-400">Last Purchase</TableHead>
                 <TableHead className="text-gray-400">Total Spent</TableHead>
-                <TableHead className="text-gray-400">Segment</TableHead>
+                <TableHead className="text-gray-400">Satisfaction</TableHead>
                 <TableHead className="text-gray-400">Actions</TableHead>
               </TableRow>
             </TableHeader>
@@ -126,10 +143,10 @@ export const CustomerList = () => {
                       variant="outline"
                       className={cn(
                         "border-2",
-                        customer.segment === "Premium" ? "border-purple-500 text-purple-400" : "border-blue-500 text-blue-400"
+                        getSatisfactionColor(customer.satisfaction)
                       )}
                     >
-                      {customer.segment}
+                      {customer.satisfaction}
                     </Badge>
                   </TableCell>
                   <TableCell>
