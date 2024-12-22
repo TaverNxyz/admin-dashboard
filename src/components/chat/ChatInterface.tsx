@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -15,7 +14,7 @@ export const ChatInterface = () => {
   const [messages, setMessages] = useState<Message[]>([
     {
       role: "assistant",
-      content: "Hello! I'm your AI assistant. How can I help you with the CRM today?",
+      content: "Hello! I'm your Algo AI Assistant. How can I help you with the CRM today?",
     },
   ]);
   const [input, setInput] = useState("");
@@ -50,7 +49,7 @@ export const ChatInterface = () => {
   return (
     <Card className="bg-black/50 backdrop-blur-xl border-gray-800 hover:border-blue-500/50 transition-all duration-300">
       <div className="p-6">
-        <h2 className="text-xl font-semibold text-white mb-6">AI Assistant</h2>
+        <h2 className="text-xl font-semibold text-white mb-6">Algo AI Assistant</h2>
         <div className="h-[400px] flex flex-col">
           <ScrollArea className="flex-1 pr-4">
             <div className="space-y-4">
