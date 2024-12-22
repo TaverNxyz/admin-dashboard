@@ -62,7 +62,7 @@ export const ProjectKanban = () => {
   };
 
   return (
-    <Card className="bg-black/50 backdrop-blur-xl border-gray-800 p-6">
+    <Card className="bg-gradient-to-r from-[#1A1F2C] to-[#2A2F3C] border-gray-800 p-6 hover:border-blue-500/50 transition-all duration-300">
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-xl font-semibold text-white">Project Board</h2>
         <Button
@@ -70,6 +70,7 @@ export const ProjectKanban = () => {
             setSelectedProject(null);
             setIsDialogOpen(true);
           }}
+          className="bg-purple-600 hover:bg-purple-700 text-white"
         >
           <Plus className="h-4 w-4 mr-2" />
           New Project
@@ -80,7 +81,7 @@ export const ProjectKanban = () => {
         {columns.map((column) => (
           <div
             key={column.id}
-            className="bg-gray-900/50 rounded-lg p-4 min-h-[400px]"
+            className="bg-black/20 backdrop-blur-sm rounded-lg p-4 min-h-[400px] border border-gray-800"
           >
             <h3 className="text-sm font-medium text-gray-400 mb-4">
               {column.title}

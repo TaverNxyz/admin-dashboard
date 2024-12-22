@@ -86,11 +86,11 @@ export const ProjectList = () => {
   };
 
   if (isLoading) {
-    return <div className="flex justify-center p-8">Loading projects...</div>;
+    return <div className="flex justify-center p-8 text-white">Loading projects...</div>;
   }
 
   return (
-    <Card className="bg-gradient-to-r from-[#1A1F2C] to-[#2A2F3C] border-gray-800 p-6">
+    <Card className="bg-gradient-to-r from-[#1A1F2C] to-[#2A2F3C] border-gray-800 p-6 hover:border-blue-500/50 transition-all duration-300">
       <div className="space-y-6">
         <div className="flex flex-col md:flex-row gap-4 items-start md:items-center justify-between">
           <div className="flex-1 w-full md:w-auto">
@@ -110,7 +110,7 @@ export const ProjectList = () => {
 
         <div className="grid grid-cols-1 gap-6">
           {filteredProjects.map((project) => (
-            <div key={project.id} className="relative group w-full min-h-[200px]">
+            <div key={project.id} className="relative group">
               <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity z-10">
                 <Button
                   variant="outline"
