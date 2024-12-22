@@ -6,7 +6,7 @@ const menuItems = [
   { icon: Users, label: "Customers", href: "/customers" },
   { icon: Briefcase, label: "Projects", href: "/projects" },
   { icon: FileText, label: "Invoicing", href: "/invoicing" },
-  { icon: Mail, label: "Email", href: "/email" },
+  { icon: Mail, label: "Email", href: "/emails" }, // Changed from /email to /emails to match the route
   { icon: ClipboardList, label: "Surveys", href: "/surveys" },
   { icon: Package, label: "Orders", href: "/orders" },
 ];
