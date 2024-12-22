@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Pencil, Trash2, MessageSquare } from "lucide-react";
 import { CustomerDialog } from "./CustomerDialog";
 import { useToast } from "@/components/ui/use-toast";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   Dialog,
   DialogContent,
@@ -19,7 +20,18 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-const customers = [
+export interface Customer {
+  name: string;
+  email: string;
+  avatar: string;
+  status: string;
+  lastPurchase: string;
+  totalSpent: string;
+  satisfaction: string;
+  notes?: string;
+}
+
+const customers: Customer[] = [
   {
     name: "Alex Thompson",
     email: "alex.t@company.com",
@@ -64,10 +76,10 @@ const customers = [
 
 export const CustomerList = () => {
   const [viewMode, setViewMode] = useState<"list" | "kanban">("list");
-  const [editCustomer, setEditCustomer] = useState<typeof customers[0] | null>(null);
+  const [editCustomer, setEditCustomer] = useState<Customer | null>(null);
   const { toast } = useToast();
 
-  const handleDelete = (customer: typeof customers[0]) => {
+  const handleDelete = (customer: Customer) => {
     toast({
       title: "Customer deleted",
       description: `${customer.name} has been removed from your customer list.`,
@@ -99,96 +111,98 @@ export const CustomerList = () => {
           <CustomerActions viewMode={viewMode} setViewMode={setViewMode} />
         </div>
 
-        {viewMode === "list" ? (
-          <Table>
-            <TableHeader>
-              <TableRow className="border-gray-800">
-                <TableHead className="text-gray-400">Customer</TableHead>
-                <TableHead className="text-gray-400">Status</TableHead>
-                <TableHead className="text-gray-400">Last Purchase</TableHead>
-                <TableHead className="text-gray-400">Total Spent</TableHead>
-                <TableHead className="text-gray-400">Satisfaction</TableHead>
-                <TableHead className="text-gray-400">Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {customers.map((customer, index) => (
-                <TableRow key={index} className="border-gray-800">
-                  <TableCell>
-                    <div className="flex items-center gap-3">
-                      <Avatar className="bg-purple-900 text-white">
-                        {customer.avatar}
-                      </Avatar>
-                      <div>
-                        <p className="text-white font-medium">{customer.name}</p>
-                        <p className="text-gray-400 text-sm">{customer.email}</p>
-                      </div>
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    <Badge
-                      variant="outline"
-                      className={cn(
-                        "border-2",
-                        customer.status === "Active" ? "border-green-500 text-green-400" : "border-red-500 text-red-400"
-                      )}
-                    >
-                      {customer.status}
-                    </Badge>
-                  </TableCell>
-                  <TableCell className="text-gray-300">{customer.lastPurchase}</TableCell>
-                  <TableCell className="text-gray-300 font-medium">{customer.totalSpent}</TableCell>
-                  <TableCell>
-                    <Badge
-                      variant="outline"
-                      className={cn(
-                        "border-2",
-                        getSatisfactionColor(customer.satisfaction)
-                      )}
-                    >
-                      {customer.satisfaction}
-                    </Badge>
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex items-center gap-2">
-                      <Dialog>
-                        <DialogTrigger asChild>
-                          <Button variant="ghost" size="icon">
-                            <MessageSquare className="h-4 w-4 text-gray-400" />
-                          </Button>
-                        </DialogTrigger>
-                        <DialogContent>
-                          <DialogHeader>
-                            <DialogTitle>Customer Notes</DialogTitle>
-                            <DialogDescription>
-                              {customer.notes || "No notes available for this customer."}
-                            </DialogDescription>
-                          </DialogHeader>
-                        </DialogContent>
-                      </Dialog>
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        onClick={() => setEditCustomer(customer)}
-                      >
-                        <Pencil className="h-4 w-4 text-gray-400" />
-                      </Button>
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        onClick={() => handleDelete(customer)}
-                      >
-                        <Trash2 className="h-4 w-4 text-gray-400" />
-                      </Button>
-                    </div>
-                  </TableCell>
+        <ScrollArea className="h-[600px]">
+          {viewMode === "list" ? (
+            <Table>
+              <TableHeader>
+                <TableRow className="border-gray-800">
+                  <TableHead className="text-gray-400">Customer</TableHead>
+                  <TableHead className="text-gray-400">Status</TableHead>
+                  <TableHead className="text-gray-400">Last Purchase</TableHead>
+                  <TableHead className="text-gray-400">Total Spent</TableHead>
+                  <TableHead className="text-gray-400">Satisfaction</TableHead>
+                  <TableHead className="text-gray-400">Actions</TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        ) : (
-          <CustomerKanban customers={customers} />
-        )}
+              </TableHeader>
+              <TableBody>
+                {customers.map((customer, index) => (
+                  <TableRow key={index} className="border-gray-800">
+                    <TableCell>
+                      <div className="flex items-center gap-3">
+                        <Avatar className="bg-purple-900 text-white">
+                          {customer.avatar}
+                        </Avatar>
+                        <div>
+                          <p className="text-white font-medium">{customer.name}</p>
+                          <p className="text-gray-400 text-sm">{customer.email}</p>
+                        </div>
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <Badge
+                        variant="outline"
+                        className={cn(
+                          "border-2",
+                          customer.status === "Active" ? "border-green-500 text-green-400" : "border-red-500 text-red-400"
+                        )}
+                      >
+                        {customer.status}
+                      </Badge>
+                    </TableCell>
+                    <TableCell className="text-gray-300">{customer.lastPurchase}</TableCell>
+                    <TableCell className="text-gray-300 font-medium">{customer.totalSpent}</TableCell>
+                    <TableCell>
+                      <Badge
+                        variant="outline"
+                        className={cn(
+                          "border-2",
+                          getSatisfactionColor(customer.satisfaction)
+                        )}
+                      >
+                        {customer.satisfaction}
+                      </Badge>
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex items-center gap-2">
+                        <Dialog>
+                          <DialogTrigger asChild>
+                            <Button variant="ghost" size="icon">
+                              <MessageSquare className="h-4 w-4 text-gray-400" />
+                            </Button>
+                          </DialogTrigger>
+                          <DialogContent>
+                            <DialogHeader>
+                              <DialogTitle>Customer Notes</DialogTitle>
+                              <DialogDescription>
+                                {customer.notes || "No notes available for this customer."}
+                              </DialogDescription>
+                            </DialogHeader>
+                          </DialogContent>
+                        </Dialog>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => setEditCustomer(customer)}
+                        >
+                          <Pencil className="h-4 w-4 text-gray-400" />
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => handleDelete(customer)}
+                        >
+                          <Trash2 className="h-4 w-4 text-gray-400" />
+                        </Button>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          ) : (
+            <CustomerKanban customers={customers} />
+          )}
+        </ScrollArea>
       </div>
       {editCustomer && (
         <CustomerDialog
