@@ -9,6 +9,13 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
 
@@ -22,6 +29,8 @@ interface CustomerDialogProps {
     status: string;
     segment: string;
     notes?: string;
+    lastPurchase?: string;
+    totalSpent?: string;
   };
 }
 
@@ -39,12 +48,13 @@ export const CustomerDialog = ({
       status: "Active",
       segment: "Regular",
       notes: "",
+      lastPurchase: new Date().toISOString().split('T')[0],
+      totalSpent: "0",
     }
   );
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Here you would typically make an API call to save the customer
     toast({
       title: `Customer ${mode === "add" ? "added" : "updated"} successfully`,
       description: `${formData.name} has been ${mode === "add" ? "added to" : "updated in"} your customer list.`,
@@ -83,6 +93,64 @@ export const CustomerDialog = ({
                   setFormData({ ...formData, email: e.target.value })
                 }
                 required
+              />
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="status">Status</Label>
+              <Select
+                value={formData.status}
+                onValueChange={(value) =>
+                  setFormData({ ...formData, status: value })
+                }
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Select status" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Active">Active</SelectItem>
+                  <SelectItem value="Inactive">Inactive</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="segment">Segment</Label>
+              <Select
+                value={formData.segment}
+                onValueChange={(value) =>
+                  setFormData({ ...formData, segment: value })
+                }
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Select segment" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Regular">Regular</SelectItem>
+                  <SelectItem value="Premium">Premium</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="lastPurchase">Last Purchase Date</Label>
+              <Input
+                id="lastPurchase"
+                type="date"
+                value={formData.lastPurchase}
+                onChange={(e) =>
+                  setFormData({ ...formData, lastPurchase: e.target.value })
+                }
+              />
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="totalSpent">Total Spent ($)</Label>
+              <Input
+                id="totalSpent"
+                type="number"
+                min="0"
+                step="0.01"
+                value={formData.totalSpent}
+                onChange={(e) =>
+                  setFormData({ ...formData, totalSpent: `$${e.target.value}` })
+                }
               />
             </div>
             <div className="grid gap-2">
