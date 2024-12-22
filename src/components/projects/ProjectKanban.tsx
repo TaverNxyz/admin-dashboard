@@ -3,7 +3,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import { ProjectDialog } from "./ProjectDialog";
-import { cn } from "@/lib/utils";
+import { ProjectCard } from "./cards/ProjectCard";
 
 type Project = {
   id: string;
@@ -89,44 +89,15 @@ export const ProjectKanban = () => {
               {projects
                 .filter((project) => project.status === column.id)
                 .map((project) => (
-                  <Card
+                  <ProjectCard
                     key={project.id}
-                    className={cn(
-                      "p-4 cursor-pointer hover:border-blue-500/50 transition-all",
-                      "bg-gray-800/50 border-gray-700"
-                    )}
+                    project={project}
+                    variant="compact"
                     onClick={() => {
                       setSelectedProject(project);
                       setIsDialogOpen(true);
                     }}
-                  >
-                    <h4 className="font-medium text-white mb-2">
-                      {project.name}
-                    </h4>
-                    <p className="text-sm text-gray-400 mb-2">
-                      {project.client}
-                    </p>
-                    <div className="flex justify-between items-center">
-                      <span
-                        className={cn(
-                          "px-2 py-1 rounded-full text-xs",
-                          {
-                            "bg-yellow-500/10 text-yellow-400":
-                              project.priority === "medium",
-                            "bg-red-500/10 text-red-400":
-                              project.priority === "high",
-                            "bg-gray-500/10 text-gray-400":
-                              project.priority === "low",
-                          }
-                        )}
-                      >
-                        {project.priority}
-                      </span>
-                      <span className="text-xs text-gray-400">
-                        {project.deadline}
-                      </span>
-                    </div>
-                  </Card>
+                  />
                 ))}
             </div>
           </div>
