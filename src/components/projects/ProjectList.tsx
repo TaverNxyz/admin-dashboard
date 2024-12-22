@@ -89,10 +89,10 @@ export const ProjectList = () => {
           </Button>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 gap-6">
           {filteredProjects.map((project) => (
-            <div key={project.id} className="relative group">
-              <div className="absolute top-2 right-2 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity z-10">
+            <div key={project.id} className="relative group w-full min-h-[200px]">
+              <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity z-10">
                 <Button
                   variant="outline"
                   size="icon"
@@ -113,7 +113,7 @@ export const ProjectList = () => {
               </div>
               <ProjectCard
                 project={project}
-                variant="default"
+                variant="detailed"
                 onClick={() => {
                   setSelectedProject(project);
                   setIsDialogOpen(true);
