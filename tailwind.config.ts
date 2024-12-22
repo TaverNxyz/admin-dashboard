@@ -35,7 +35,7 @@ export default {
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
-        'pulse-extra-slow': 'pulse 20s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+        'pulse-extra-slow': 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
       },
       boxShadow: {
         'cyan-glow': '0 0 20px rgba(14, 246, 255, 0.3)',
