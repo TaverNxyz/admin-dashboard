@@ -28,9 +28,9 @@ export const Sidebar = ({
       <div className="flex flex-col h-full">
         <div className="p-4 border-b border-gray-800">
           <img 
-            src="/lovable-uploads/4a0b7229-c6d6-4c70-81c7-f3b656a33bdb.png"
+            src="/lovable-uploads/6b9c8daa-434a-40e9-a418-b35c01529c60.png"
             alt="AlgoTech Builds"
-            className="h-48 w-auto mx-auto transition-all duration-300 shadow-cyan-glow rounded-lg"
+            className="h-55 w-auto mx-auto animate-pulse-extra-slow hover:animate-none transition-all duration-300 shadow-cyan-glow rounded-lg"
           />
         </div>
         <nav className="flex-1 p-4">
