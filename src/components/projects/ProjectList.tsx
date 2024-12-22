@@ -41,9 +41,11 @@ export const ProjectList = () => {
     fetchNextPage,
     hasNextPage,
     isLoading,
+    refetch
   } = useInfiniteQuery({
     queryKey: ['projects'],
     queryFn: fetchProjects,
+    initialPageParam: 0,
     getNextPageParam: (lastPage) => lastPage.hasMore ? lastPage.nextPage : undefined,
   });
 
@@ -57,33 +59,30 @@ export const ProjectList = () => {
   ) || [];
 
   const handleCreateProject = (newProject: Omit<Project, "id">) => {
-    const project = {
-      ...newProject,
-      id: Math.random().toString(36).substr(2, 9),
-    };
-    setProjects([...projects, project]);
+    // Instead of managing local state, we'll show a success message and refetch
     toast({
       title: "Success",
       description: "Project created successfully",
     });
+    refetch();
   };
 
   const handleUpdateProject = (updatedProject: Project) => {
-    setProjects(projects.map((p) => 
-      p.id === updatedProject.id ? updatedProject : p
-    ));
+    // Instead of managing local state, we'll show a success message and refetch
     toast({
       title: "Success",
       description: "Project updated successfully",
     });
+    refetch();
   };
 
   const handleDeleteProject = (projectId: string) => {
-    setProjects(projects.filter((p) => p.id !== projectId));
+    // Instead of managing local state, we'll show a success message and refetch
     toast({
       title: "Success",
       description: "Project deleted successfully",
     });
+    refetch();
   };
 
   if (isLoading) {

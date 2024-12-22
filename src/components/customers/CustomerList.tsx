@@ -13,14 +13,6 @@ import { useToast } from "@/components/ui/use-toast";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useInfiniteScroll } from "@/hooks/useInfiniteScroll";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 
 export interface Customer {
   name: string;
@@ -68,6 +60,7 @@ export const CustomerList = () => {
   } = useInfiniteQuery({
     queryKey: ['customers'],
     queryFn: fetchCustomers,
+    initialPageParam: 0,
     getNextPageParam: (lastPage) => lastPage.hasMore ? lastPage.nextPage : undefined,
   });
 
