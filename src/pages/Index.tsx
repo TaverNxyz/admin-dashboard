@@ -10,9 +10,11 @@ const Index = () => {
       <div className="p-8 space-y-8">
         <WelcomeCard />
         <MetricsGrid />
-        <SalesChart />
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <SalesChart />
+          <ChatInterface />
+        </div>
       </div>
-      <ChatInterface />
     </DashboardLayout>
   );
 };
